@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surpresa Fantástica</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    #container {
+      text-align: center;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    #message {
+      display: none;
+      text-align: center;
+      font-size: 24px;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .light {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      opacity: 0;
+      animation: blink 0.5s ease-in-out forwards;
+    }
+    @keyframes blink {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Quer ver algo fantástico?</h1>
+    <button onclick="startAnimation()">Clique aqui</button>
+  </div>
+  <div id="message">
+    <h1>Parabéns Sofi!</h1>
+    <p>Você é muito especial para mim. Amo gostar de você. Feliz aniversário!</p>
+  </div>
+  <script>
+    function startAnimation() {
+      document.getElementById("container").style.display = "none";
+      playChristmasLights();
+    }
+
+    function playChristmasLights() {
+      const lightCount = 8; // Número de "ondas" de luzes
+      const interval = 500; // Intervalo entre cada onda (ms)
+      const lights = [];
+
+      // Criar ondas de luzes começando nas bordas
+      for (let i = 0; i < lightCount; i++) {
+        setTimeout(() => {
+          const numLights = 10 + i * 10; // Número de luzes na onda atual
+          for (let j = 0; j < numLights; j++) {
+            const light = document.createElement("div");
+            light.classList.add("light");
+
+            // Coordenadas aleatórias nas bordas para início
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+
+            light.style.left = `${x}px`;
+            light.style.top = `${y}px`;
+
+            // Cores alternadas
+            light.style.backgroundColor = j % 2 === 0 ? "red" : "green";
+            light.style.animationDelay = `${Math.random()}s`;
+
+            document.body.appendChild(light);
+            lights.push(light);
+          }
+        }, i * interval);
+      }
+
+      // Após todas as luzes, mostrar a mensagem
+      setTimeout(() => {
+        lights.forEach((light) => light.remove());
+        document.getElementById("message").style.display = "block";
+      }, lightCount * interval + 2000); // Tempo total mais um buffer
+    }
+  </script>
+</body>
+</html>
